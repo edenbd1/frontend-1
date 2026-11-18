@@ -236,17 +236,12 @@ npm run test:ui       # Visual UI for test runner
 
 Tests use Vitest + React Testing Library. Focus on user behavior, not implementation details.
 
-### Vitest UI Peer Dependency
+### Vitest UI
 
-`npm run test:ui` requires the Vitest UI peer dependency (`@vitest/ui`), which
-is not installed by default. Install it at the same major version as `vitest`
-in `package.json` (for example, `vitest@^5.0.5`):
-
-```bash
-npm install -D @vitest/ui@^5.0.5
-```
-
-Then run `npm run test:ui` to open the visual test runner.
+`npm run test:ui` uses `@vitest/ui`, which is declared in `devDependencies`, so
+it is installed by `npm ci` / `npm install` — no extra install step or prompt.
+Its version must match `vitest` exactly (it declares `vitest` as a peer at the
+same version), so bump both packages together.
 
 ## Previewing a Production Build
 

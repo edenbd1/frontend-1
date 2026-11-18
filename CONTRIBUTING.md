@@ -410,9 +410,15 @@ Built assets: no recognized private-key patterns found.
 dist/assets/index-Dq3kL8mN.js: possible Stellar private key
 ```
 
+**Missing build output** (scanner run before `npm run build`):
+
+```
+::error::dist/ build output not found — run `npm run build` before scanning for secrets.
+```
+
 The scanner prints only the file path and pattern label — never the matched
-value itself. The process exits with code 1 when any match is found, so it
-blocks CI the same way a failing test does.
+value itself. The process exits with code 1 when any match is found or when
+`dist/` is missing, so it blocks CI the same way a failing test does.
 
 If you get a false positive from a test fixture or generated stub, check that
 no real credential was accidentally inlined into the bundle. If the match is

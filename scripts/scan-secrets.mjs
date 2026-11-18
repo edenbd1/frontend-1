@@ -1,4 +1,4 @@
-import { readdir, readFile } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 
 // Inspect shipped assets without ever printing matched credentials.
@@ -23,6 +23,21 @@ async function scan(directory) {
     }
   }
 }
-await scan("dist");
+const DIST = "dist";
+
+// Fail fast with an actionable message instead of a raw ENOENT stack trace
+// when the scanner runs before `npm run build` has produced any output.
+const distStats = await stat(DIST).catch((error) => {
+  if (error.code === "ENOENT") return null;
+  throw error;
+});
+if (!distStats?.isDirectory()) {
+  console.error(
+    `::error::${DIST}/ build output not found — run \`npm run build\` before scanning for secrets.`,
+  );
+  process.exit(1);
+}
+
+await scan(DIST);
 if (failures) process.exitCode = 1;
 else console.log("Built assets: no recognized private-key patterns found.");

@@ -642,7 +642,9 @@ Common things to look for:
 **Build too large?**
 ```bash
 npm run bundle:stats
-# Opens stats.html showing bundle breakdown
+# Builds, then opens stats.html (bundle breakdown) in your default browser
+# on macOS, Linux (xdg-open) or Windows. Re-open it later with:
+npm run bundle:analyze
 ```
 
 **Tests failing?**
